@@ -8,7 +8,7 @@ import (
 	"github.com/paulmach/orb/geo"
 )
 
-const floatFmt = "%.4f"
+const floatFmt = "%.6f"
 
 type Geometry[Coord any] struct {
 	Type        string `json:"type"`
