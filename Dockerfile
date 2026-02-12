@@ -1,7 +1,7 @@
 FROM golang:1.25.6 AS builder
 
 ENV GO111MODULE=on
-ENV GOS=linux
+ENV GOOS=linux
 ENV GOARCH=amd64
 ENV CGO_ENABLED=0
 ADD . /src

@@ -1,0 +1,7 @@
+# ไม่ส่ง .git และไฟล์ที่ไม่จำเป็นเข้า build context
+.git
+.gitignore
+.env
+*.md
+Dockerfile
+.dockerignore

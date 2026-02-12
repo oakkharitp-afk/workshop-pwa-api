@@ -1,0 +1,329 @@
+{
+  "info": {
+    "_postman_id": "248f9994-f999-4243-a4ef-c018f25232b7",
+    "name": "PWA Training Workshop (Edit)",
+    "description": "**API สำหรับ Workshop PWA**\n\n**baseUrl:** ตั้งเป็น [http://localhost:1323/api/1.0](http://localhost:1323/api/1.0) เมื่อรัน API บนเครื่องตัวเอง (หรือใช้ IP แทน localhost ถ้า Frontend อยู่คนละเครื่อง)\n\n**collectionId ที่รองรับ สำหรับการ workshop :** flow_meter | step_test | dma_boundary",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16878049",
+    "_collection_link": "https://go.postman.co/collection/16878049-248f9994-f999-4243-a4ef-c018f25232b7?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "get all collections",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/collections?search=STEP_TEST&itemType=Feature&sort=createdAt:desc&offset=0&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "STEP_TEST",
+                  "description": "สืบค้นข้อมูลด้วยคำค้นหา โดยทำการสืบค้นจากฟิลด์ `title`, `description`"
+                },
+                {
+                  "key": "itemType",
+                  "value": "Feature",
+                  "description": "ประเภทการจัดเก็บของชุดข้อมูล ได้แก่ Feature, Tile, Coverage, และ CoverageTile"
+                },
+                {
+                  "key": "sort",
+                  "value": "createdAt:desc",
+                  "description": "เรียงข้อมูล โดยระบุชื่อฟิลด์และทิศทาง (`asc` น้อยไปมาก, `desc` มากไปน้อย) คั่นด้วย `:` ถ้าเรียงหลายฟิลด์ให้คั่นด้วย `,`",
+                  "type": "text"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "ข้ามลำดับแสดงผลลัพธ์ของรายการข้อมูล ค่าเป็นตัวเลขตั้งแต่ 0 เป็นต้น โดยตั้งต้น คือ 0",
+                  "type": "text"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "กำหนดการแสดงผลลัพธ์ของรายการข้อมูล ค่าเป็นตัวเลขตั้งแต่ 0-10000 โดยค่าเริ่มต้น คือ 10",
+                  "type": "text"
+                }
+              ]
+            },
+            "description": "เรียกดูรายการชุดข้อมูล (Collections) ทั้งหมด — ใช้ใน workshop เพื่อดูว่ามี collection อะไรบ้าง และสามารถใช้ query params (search, sort, limit, offset) เพื่อกรองผลลัพธ์\n\n**หมายเหตุ:** API ตามมาตรฐาน OGC API - Features — [เอกสารเพิ่มเติม](https://ogcapi.ogc.org/)"
+          },
+          "response": []
+        },
+        {
+          "name": "get a collection",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/collections/:collectionId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                ":collectionId"
+              ],
+              "variable": [
+                {
+                  "key": "collectionId",
+                  "value": "dma_boundary",
+                  "description": "รหัสชุดข้อมูล (Features Collection) อนุญาตเฉพาะ : flow_meter | step_test | dma_boundary"
+                }
+              ]
+            },
+            "description": "เรียกดูรายละเอียดของชุดข้อมูล (Collection) ตาม `collectionId` ที่ระบุ — ใน workshop ใช้ค่า flow_meter, step_test หรือ dma_boundary"
+          },
+          "response": []
+        }
+      ],
+      "description": "API สำหรับดูและจัดการชุดข้อมูล (Collection) ตามมาตรฐาน OGC API - Features — ใช้ใน workshop สำหรับดึงรายการ collection และดูรายละเอียดของแต่ละชุดข้อมูล"
+    },
+    {
+      "name": "Data",
+      "item": [
+        {
+          "name": "create features",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\n      \"type\": \"Feature\",\n      \"properties\": {\n        \"dma_id\": 21,\n        \"dmaname\": \"ท่อส่ง ชนบท-โนนข่า\",\n        \"dmano\": \"DMA11\",\n        \"globalid\": \"01K3J57FB1VV3XX19MK67P12B1\",\n        \"id\": \"68ad23c575dc2456f0d93ee6\",\n        \"loggerid\": 7606,\n        \"mmno\": null,\n        \"pwacode\": \"5521012\",\n        \"recorddate\": \"2025-11-10T11:49:18.664000+00:00\",\n        \"remark\": \"TEST\"\n      },\n      \"geometry\": {\n        \"coordinates\": [\n          [\n            [\n              102.57820975342231,\n              16.04552445775165\n            ],\n            [\n              102.57805644131889,\n              16.04554015944908\n            ],\n            [\n              102.57757436735893,\n              16.045562363136266\n            ],\n            [\n              102.57686246353228,\n              16.04549428794188\n            ],\n            [\n              102.57396075361486,\n              16.04519003440831\n            ],\n            [\n              102.57236570141683,\n              16.045012989995676\n            ],\n            [\n              102.57019396093997,\n              16.044799375253938\n            ],\n            [\n              102.56946391970166,\n              16.044789893055103\n            ],\n            [\n              102.5688646890991,\n              16.0448932074534\n            ],\n            [\n              102.56851766322505,\n              16.04500122333182\n            ],\n            [\n              102.56612044106285,\n              16.046064008618355\n            ],\n            [\n              102.56312826907411,\n              16.04741503503872\n            ],\n            [\n              102.55301582031628,\n              16.051972174455653\n            ],\n            [\n              102.54772792297285,\n              16.059886776670513\n            ],\n            [\n              102.54263742066607,\n              16.05664142466835\n            ],\n            [\n              102.54248934680268,\n              16.056479548561793\n            ],\n            [\n              102.5424650099133,\n              16.056451278060962\n            ],\n            [\n              102.54264786832131,\n              16.056354258051165\n            ],\n            [\n              102.5392344101586,\n              16.05269297741011\n            ],\n            [\n              102.53717934005329,\n              16.047544323713577\n            ],\n            [\n              102.53654523655057,\n              16.045880213288655\n            ],\n            [\n              102.53649979968199,\n              16.043123213619594\n            ],\n            [\n              102.53678722621308,\n              16.033303676600568\n            ],\n            [\n              102.53551425167859,\n              16.030542226495246\n            ],\n            [\n              102.53062634959448,\n              16.024329675937505\n            ],\n            [\n              102.54199093349912,\n              16.028016021316603\n            ],\n            [\n              102.53978494493636,\n              16.01974755885649\n            ],\n            [\n              102.54624474435549,\n              16.02330582120574\n            ],\n            [\n              102.55108344127302,\n              16.028439776308712\n            ],\n            [\n              102.56226757166355,\n              16.027412920348727\n            ],\n            [\n              102.57636949744595,\n              16.037232128358003\n            ],\n            [\n              102.5773585141714,\n              16.042657277622858\n            ],\n            [\n              102.57817686755506,\n              16.045369530366546\n            ],\n            [\n              102.57820975342231,\n              16.04552445775165\n            ]\n          ]\n        ],\n        \"type\": \"Polygon\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/:collectionId/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                ":collectionId",
+                "items"
+              ],
+              "variable": [
+                {
+                  "key": "collectionId",
+                  "value": "dma_boundary",
+                  "description": "รหัสชุดข้อมูล (Features Collection) อนุญาตเฉพาะ : flow_meter | step_test | dma_boundary"
+                }
+              ]
+            },
+            "description": "สร้าง Feature ใหม่ในชุดข้อมูล — ระบุ `collectionId` ใน path (flow_meter | step_test | dma_boundary) และส่ง Request Body เป็น GeoJSON FeatureCollection สามารถสร้างได้หลาย feature ในคำขอเดียว"
+          },
+          "response": []
+        },
+        {
+          "name": "get all features",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/collections/:collectionId/items?bbox=-180.0000000,-90.0000000,180.0000000,90.0000000&datetime=2021-02-02T14:09:44.673Z/..&offset=0&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                ":collectionId",
+                "items"
+              ],
+              "query": [
+                {
+                  "key": "bbox",
+                  "value": "-180.0000000,-90.0000000,180.0000000,90.0000000",
+                  "description": "สืบค้นข้อมูลเฉพาะพื้นที่ตามขอบเขตเท่านั้น โดยการระบุขอบเขตจะมีทั้ง 4 ตัวเลข กับ 6 ตัวเลข ขึ้นอยู่กับระบบพิกัดว่ามีความสูงหรือความลึกด้วยหรือไม่\n*   มุมล่างซ้าย X\n*   มุมล่างซ้าย Y\n*   มุมล่างซ้าย Z (ทางเลือก)\n*   มุมบนขวา X\n*   มุมบนขวา Y\n*   มุมบนขวา Z (ทางเลือก)"
+                },
+                {
+                  "key": "bbox-crs",
+                  "value": "http://www.opengis.net/def/crs/EPSG/0/4326",
+                  "description": "ระบุมาตรฐานของขอบเขตที่จะใช้ในการสืบค้นด้วย `bbox`",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "datetime",
+                  "value": "2021-02-02T14:09:44.673Z/..",
+                  "description": "สืบค้นข้อมูลตามช่วงเวลาที่มีการแก้ไขข้อมูลล่าสุด `updatedAt` ด้วยรูปแบบ `RFC 3339`\n* วัน-เวลา: \"2018-02-12T23:20:50Z\"\n* ช่วงวัน-เวลา: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n* ช่วงวัน-เวลา (เฉพาะ เริ่มต้น หรือ สิ้นสุด): \"2018-02-12T00:00:00Z/..\" หรือ \"../2018-03-18T12:31:12Z\"",
+                  "type": "text"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "ข้ามลำดับแสดงผลลัพธ์ของรายการข้อมูล ค่าเป็นตัวเลขตั้งแต่ 0 เป็นต้น โดยตั้งต้น คือ 0",
+                  "type": "text"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "กำหนดการแสดงผลลัพธ์ของรายการข้อมูล ค่าเป็นตัวเลขตั้งแต่ 0-10000 โดยค่าเริ่มต้น คือ 10",
+                  "type": "text"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "collectionId",
+                  "value": "dma_boundary",
+                  "description": "รหัสชุดข้อมูล (Features Collection) อนุญาตเฉพาะ : flow_meter | step_test | dma_boundary"
+                }
+              ]
+            },
+            "description": "เรียกดูรายการ Feature ในชุดข้อมูลนั้น ๆ — ระบุ `collectionId` ใน path ผลลัพธ์เป็น GeoJSON FeatureCollection สามารถใช้ query params (bbox, datetime, limit, offset) เพื่อกรองข้อมูล"
+          },
+          "response": []
+        },
+        {
+          "name": "get a feature",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/collections/:collectionId/items/:featureId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                ":collectionId",
+                "items",
+                ":featureId"
+              ],
+              "variable": [
+                {
+                  "key": "collectionId",
+                  "value": "dma_boundary",
+                  "description": "รหัสชุดข้อมูล (Features Collection) อนุญาตเฉพาะ : flow_meter | step_test | dma_boundary"
+                },
+                {
+                  "key": "featureId",
+                  "value": "698bee12dc2e44e83166766e",
+                  "description": "รหัส Feature (id ของข้อมูลที่ต้องการดู — ได้จากผลลัพธ์ get all features)"
+                }
+              ]
+            },
+            "description": "เรียกดู Feature เดียวตาม `collectionId` และ `featureId` — ใช้เมื่อต้องการดูรายละเอียดของ feature เฉพาะรายการ ผลลัพธ์เป็น GeoJSON ประเภท Feature"
+          },
+          "response": []
+        },
+        {
+          "name": "update features",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"FeatureCollection\",\n    \"features\": [\n        {\n            \"id\": \"698bee12dc2e44e83166766c\",\n            \"type\": \"Feature\",\n            \"geometry\": {\n                \"type\": \"Polygon\",\n                \"coordinates\": [\n                    [\n                        [\n                            102.60638901365023,\n                            16.0604179560052\n                        ],\n                        [\n                            102.60623570154723,\n                            16.0604336577026\n                        ],\n                        [\n                            102.60575362758723,\n                            16.0604558613898\n                        ],\n                        [\n                            102.60504172376024,\n                            16.0603877861954\n                        ],\n                        [\n                            102.60214001384323,\n                            16.0600835326619\n                        ],\n                        [\n                            102.60054496164523,\n                            16.0599064882492\n                        ],\n                        [\n                            102.59837322116823,\n                            16.0596928735075\n                        ],\n                        [\n                            102.59764317993023,\n                            16.0596833913086\n                        ],\n                        [\n                            102.59704394932723,\n                            16.0597867057069\n                        ],\n                        [\n                            102.59669692345324,\n                            16.0598947215854\n                        ],\n                        [\n                            102.59429970129123,\n                            16.0609575068719\n                        ],\n                        [\n                            102.59130752930223,\n                            16.0623085332923\n                        ],\n                        [\n                            102.58119508054423,\n                            16.066865672709202\n                        ],\n                        [\n                            102.57633233356923,\n                            16.0690603662612\n                        ],\n                        [\n                            102.57081668089423,\n                            16.071534922921902\n                        ],\n                        [\n                            102.57066860703124,\n                            16.0713730468153\n                        ],\n                        [\n                            102.57064427014123,\n                            16.0713447763145\n                        ],\n                        [\n                            102.57082712854923,\n                            16.0712477563047\n                        ],\n                        [\n                            102.56741367038723,\n                            16.0675864756637\n                        ],\n                        [\n                            102.56535860028123,\n                            16.0624378219671\n                        ],\n                        [\n                            102.57056381418423,\n                            16.0607127134989\n                        ],\n                        [\n                            102.57400773299423,\n                            16.0590128614696\n                        ],\n                        [\n                            102.56758114906023,\n                            16.046043280652\n                        ],\n                        [\n                            102.56369351190723,\n                            16.0454357247488\n                        ],\n                        [\n                            102.55880560982322,\n                            16.039223174191\n                        ],\n                        [\n                            102.55925800092523,\n                            16.0329660646731\n                        ],\n                        [\n                            102.56796420516423,\n                            16.03464105711\n                        ],\n                        [\n                            102.57442400458423,\n                            16.038199319459302\n                        ],\n                        [\n                            102.57926270150124,\n                            16.0433332745623\n                        ],\n                        [\n                            102.58491987709623,\n                            16.0508873755007\n                        ],\n                        [\n                            102.60454875767424,\n                            16.0521256266115\n                        ],\n                        [\n                            102.60553777440023,\n                            16.0575507758764\n                        ],\n                        [\n                            102.60635612778323,\n                            16.0602630286201\n                        ],\n                        [\n                            102.60638901365023,\n                            16.0604179560052\n                        ]\n                    ]\n                ]\n            },\n            \"properties\": {\n                \"_createdAt\": \"2026-02-11T02:48:50.184Z\",\n                \"_createdBy\": \"698bea19e78db6ef27c5ed1a\",\n                \"_createdat\": \"2025-08-26T03:02:29.985Z\",\n                \"_createdby\": \"65792edcd715b5ab12310280\",\n                \"_id\": \"698bee12dc2e44e83166766c\",\n                \"_updatedAt\": \"2026-02-11T02:48:50.184Z\",\n                \"_updatedBy\": \"698bea19e78db6ef27c5ed1a\",\n                \"_updatedat\": \"2025-11-10T11:56:06.552Z\",\n                \"_updatedby\": \"65792edcd715b5ab12310280\",\n                \"dma_id\": 21,\n                \"dmaname\": \"ท่อส่ง ชนบท-โนนข่า\",\n                \"dmano\": \"DMA11\",\n                \"globalid\": \"01K3J57FB1VV3XX19MK67P12B1\",\n                \"id\": \"68ad23c575dc2456f0d93ee6\",\n                \"loggerid\": 7606,\n                \"mmno\": null,\n                \"pwacode\": \"5521012\",\n                \"recorddate\": \"2025-11-10T11:49:18.664000+00:00\",\n                \"remark\": \"โรงกรองทุ่งมน\"\n            }\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/:collectionId/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                ":collectionId",
+                "items"
+              ],
+              "variable": [
+                {
+                  "key": "collectionId",
+                  "value": "dma_boundary",
+                  "description": "รหัสชุดข้อมูล (Features Collection) อนุญาตเฉพาะ : flow_meter | step_test | dma_boundary"
+                }
+              ]
+            },
+            "description": "แก้ไขรายละเอียด Feature ที่มีอยู่แล้ว — ระบุ `collectionId` ใน path และส่ง Request Body เป็น GeoJSON FeatureCollection โดยแต่ละ feature ต้องมี `id` (featureId) และข้อมูลที่ต้องการอัปเดต"
+          },
+          "response": []
+        },
+        {
+          "name": "delete features",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"type\": \"FeatureCollection\",\n    \"features\": [\n        {\n            \"id\": \"698c5563de33b2d04b955991\"\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/collections/:collectionId/items",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "collections",
+                ":collectionId",
+                "items"
+              ],
+              "variable": [
+                {
+                  "key": "collectionId",
+                  "value": "dma_boundary",
+                  "description": "รหัสชุดข้อมูล (Features Collection) อนุญาตเฉพาะ : flow_meter | step_test | dma_boundary"
+                }
+              ]
+            },
+            "description": "ลบ Feature ของชุดข้อมูล (Features Collection) นั้น ๆ โดยระบุ `featureId` ใน Request Body พร้อมกับ `collectionId` ใน path (รองรับการลบได้หลายรายการในคำขอเดียว)"
+          },
+          "response": []
+        }
+      ],
+      "description": "API สำหรับ\n\n- สร้าง\n    \n- ดู\n    \n- แก้ไข\n    \n- ลบ\n    \n\nFeature ในแต่ละชุดข้อมูล (Collection) — ใน workshop ใช้กับ collectionId: flow_meter, step_test, dma_boundary"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:1323/api/1.0",
+      "description": "URL ของ API (เมื่อรัน local: http://localhost:1323/api/1.0)"
+    }
+  ]
+}

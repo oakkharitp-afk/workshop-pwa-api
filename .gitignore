@@ -1,0 +1,7 @@
+# Environment (มี API key / ค่าลับ — ไม่ควร push)
+.env
+
+# OS / Editor
+.DS_Store
+*.swp
+*.swo

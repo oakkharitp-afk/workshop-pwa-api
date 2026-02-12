@@ -9,11 +9,14 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func init() {
-	if err := godotenv.Load(".env.example"); err != nil {
-		log.Fatal("error to load env,", err)
+	if err := godotenv.Load(".env"); err != nil {
+		if err := godotenv.Load(".env.example"); err != nil {
+			log.Fatal("error loading env:", err)
+		}
 	}
 }
 
@@ -29,13 +32,21 @@ func main() {
 	h := handler.NewHandler(vaApi)
 
 	e := echo.New()
+
+	// CORS
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete, http.MethodOptions},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
+
 	g := e.Group("/api/1.0")
 
-	// // Collection
+	// Collection
 	g.GET("/collections", h.GetCollections)
 	g.GET("/collections/:collectionId", h.GetCollection)
 
-	// // Feature
+	// Feature
 	g.POST("/collections/:collectionId/items", h.CreateFeatures)
 	g.GET("/collections/:collectionId/items", h.GetFeatures)
 	g.GET("/collections/:collectionId/items/:featureId", h.GetFeature)
@@ -44,5 +55,4 @@ func main() {
 	if err := e.Start(":" + os.Getenv("API_API_PORT")); err != nil {
 		log.Fatal("start server error, ", err)
 	}
-
 }
