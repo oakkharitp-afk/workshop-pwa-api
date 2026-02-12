@@ -72,6 +72,8 @@ func (v *VallarisAPI) doGetRequest(
 
 	base.RawQuery = q.Encode()
 
+	fmt.Println(base.String())
+
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, base.String(), nil)
 	if err != nil {
 		return nil, fmt.Errorf("create request: %w", err)

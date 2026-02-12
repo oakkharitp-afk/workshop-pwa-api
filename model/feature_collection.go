@@ -13,7 +13,7 @@ type FeatureCollection[Feature any] struct {
 	TimeStamp *time.Time `json:"timeStamp,omitempty"`
 }
 
-type Feature[Properties any, Coord Coordinates] struct {
+type Feature[Properties any, Coord any] struct {
 	ID         string          `json:"id,omitempty"`
 	Type       string          `json:"type"`
 	Geometry   Geometry[Coord] `json:"geometry"`

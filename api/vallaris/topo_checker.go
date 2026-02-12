@@ -3,29 +3,48 @@ package vallaris
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/url"
+	"slices"
 	"workshop-pwa-api/model"
 )
 
-func (v *VallarisAPI) Intersection(collectionID string, coordinate model.Coordinates, excludeIds ...string) (bool, error) {
-	var (
-		ctx = context.TODO()
-		wkt = coordinate.ToWKT()
-	)
+type Topofeature model.Feature[map[string]any, any]
+
+func (v *VallarisAPI) Intersection(
+	collectionID string,
+	coordinate model.Coordinates,
+	excludeIds ...string,
+) (bool, error) {
+
+	ctx := context.TODO()
+	wkt := coordinate.ToWKT()
+
+	// We need more than 1 result if we are excluding some IDs.
+	limit := 1 + len(excludeIds)
 
 	query := url.Values{}
 	query.Add("intersects", wkt)
-	query.Add("limit", "1") // มีวิธีที่ดีกว่านี้
+	query.Add("limit", fmt.Sprint(limit))
+
 	reader, err := v.doGetRequest(ctx, []string{"collections", collectionID, "items"}, query)
 	if err != nil {
 		return false, err
 	}
 	defer reader.Close()
 
-	var data model.FeatureCollection[map[string]any]
-	if err := json.NewDecoder(reader).Decode(&data); err != nil {
+	var fc model.FeatureCollection[Topofeature]
+	if err := json.NewDecoder(reader).Decode(&fc); err != nil {
 		return false, err
 	}
 
-	return len(data.Features) > 0, nil
+	for _, f := range fc.Features {
+		// Skip excluded IDs (for update case, avoid checking itself)
+		if slices.Contains(excludeIds, f.ID) {
+			continue
+		}
+		return true, nil
+	}
+
+	return false, nil
 }

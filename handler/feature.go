@@ -211,17 +211,20 @@ func (h *handler) updateDMAs(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, errors.New("Required at lest 1 item"))
 	}
 	for i, feature := range fc.Features {
-		// intersect, err := h.vaAPI.Intersection(collectionId, feature.Geometry.Coordinates)
-		// if err != nil {
-		// 	return errors.New("process data failed, error to check topology")
-		// }
-		// if intersect {
-		// 	return fmt.Errorf("feature[%d] not pass topology", i)
-		// }
 		if feature.ID == "" {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("update feature[%d] failed, id is required", i))
 		}
+		// ไม่นับพื้นที่ทับซ้อนของตัวเอง
+		intersect, err := h.vaAPI.Intersection(collectionId, feature.Geometry.Coordinates, feature.ID)
+		if err != nil {
+			return errors.New("process data failed, error to check topology")
+		}
+		if intersect {
+			return fmt.Errorf("feature[%d] not pass topology", i)
+		}
+
 	}
+
 	features := make([]model.DMABoundaryFeature, 0, len(fc.Features))
 	for i, feature := range fc.Features {
 		reader, err := h.vaAPI.UpdateFeature(ctx, collectionId, feature.ID, feature)
@@ -255,6 +258,15 @@ func (h *handler) updateStepTests(c echo.Context) error {
 		if feature.ID == "" {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("update feature[%d] failed, id is required", i))
 		}
+		// ไม่นับพื้นที่ทับซ้อนของตัวเอง
+		intersect, err := h.vaAPI.Intersection(collectionId, feature.Geometry.Coordinates, feature.ID)
+		if err != nil {
+			return errors.New("process data failed, error to check topology")
+		}
+		if intersect {
+			return fmt.Errorf("feature[%d] not pass topology", i)
+		}
+
 	}
 	features := make([]model.StepTestFeature, 0, len(fc.Features))
 	for i, feature := range fc.Features {
@@ -289,6 +301,14 @@ func (h *handler) updateFlowmeters(c echo.Context) error {
 	for i, feature := range fc.Features {
 		if feature.ID == "" {
 			return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("update feature[%d] failed, id is required", i))
+		}
+		// ไม่นับพื้นที่ทับซ้อนของตัวเอง
+		intersect, err := h.vaAPI.Intersection(collectionId, feature.Geometry.Coordinates, feature.ID)
+		if err != nil {
+			return errors.New("process data failed, error to check topology")
+		}
+		if intersect {
+			return fmt.Errorf("feature[%d] not pass topology", i)
 		}
 	}
 	features := make([]model.FlowMeterFeature, 0, len(fc.Features))
