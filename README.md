@@ -71,6 +71,29 @@ API สำหรับ Workshop PWA
    - ถ้า Frontend รันบนเครื่องอื่น ให้ใช้ IP ของเครื่องที่รัน API แทน `localhost`  
      ตัวอย่าง: `http://192.168.1.100:1323/api/1.0`
 
+### ทางเลือกเพิ่ม: รัน API ที่เครื่องหลักแล้วเผยให้คนอื่นเรียกได้
+
+กรณีรัน API ที่เครื่องหลักเครื่องเดียว แล้วต้องการให้คนอื่นใน workshop เรียก API ตัวเดียวกันได้ (คนละเครือข่ายหรือคนละที่) ให้ใช้เครื่องมือ tunnel จากอินเทอร์เน็ตเข้ามาที่ localhost เช่น **ngrok** หรือ **Cloudflare Tunnel**
+
+| เครื่องมือ | วิธีใช้ |
+|------------|---------|
+| **ngrok** | ดาวน์โหลดจาก [ngrok.com/download](https://ngrok.com/download) แล้วรันคำสั่งด้านล่าง (ให้ API รันอยู่ที่พอร์ต 1323 ก่อน) — จะได้ URL แบบ `https://xxxx.ngrok-free.app` ใช้เป็น base ต่อท้าย `/api/1.0` ใน Postman / Frontend |
+| **Cloudflare Tunnel** | ติดตั้ง `cloudflared` จาก [developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation) แล้วรันคำสั่งด้านล่าง — จะได้ URL แบบ `https://xxxx.trycloudflare.com` ใช้เป็น base ต่อท้าย `/api/1.0` เช่นกัน |
+
+**คำสั่ง ngrok:**
+
+```bash
+ngrok http 1323
+```
+
+**คำสั่ง Cloudflare Tunnel:**
+
+```bash
+cloudflared tunnel --url http://localhost:1323
+```
+
+**หมายเหตุ:** คนที่รัน API ต้องเปิด tunnel ไว้ตลอดช่วง workshop และแจก URL ที่ได้ให้คนอื่นไปตั้งใน Postman (ตัวแปร `baseUrl`) หรือใน Frontend
+
 ### Endpoints
 
 | Method | Path                                                  | คำอธิบาย              |
